@@ -8,35 +8,54 @@
 
 import { read, readFileSync} from "node:fs";
 
-//take array of strings and reduce it to just numbers
 const integers = "0123456789";
-const integersArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-const stringIntegers = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const ints = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+const intsWritten = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const intPairsWritten = ["twone", "sevenine", "oneight", "threeight", "nineight", "fiveight", "eighthree", "eightwo"];
+const intPairs = ["21", "79", "18", "38", "98", "58", "83", "82"];
+
+function question1() {
+  let input = readFile();
+  getCalibrationValues(input);
+}
+
+function question2() {
+  let input = readFile();
+  input = cleanInput(input);
+  getCalibrationValues(input);
+  
+}
 
 function readFile() {
   return readFileSync("day01.txt", { encoding: "utf-8" })
+  .replace(/\r/g, "")
   .trim()
+  .split("\n");
 }
 
-function splitInput(input) {
-  return input.split("\n");
-}
 function getNumbersFromString(myString) {
   return [...myString].reduce((acc, cur) => ((integers.includes(cur)) ? acc + cur : acc), "");
 }
 
 function cleanInput(input){
-  for (let i = 0; i < 10; i++) {
-    input = input.replaceAll(stringIntegers[i], integersArray[i]);
+  let arr = [];
+  for (let line of input) {
+    let tempLine = line;
+    for (let i = 0; i < intPairsWritten.length; i++) {
+      tempLine = tempLine.replaceAll(intPairsWritten[i], intPairs[i]);
+    }
+    
+    for (let i = 0; i < intsWritten.length; i++) {
+      tempLine = tempLine.replaceAll(intsWritten[i], ints[i]);
+    }
+    arr.push(tempLine);
   }
-  console.log(input);
+  return arr;
 }
 
-function question1() {
-  let input = readFile();
-  input = splitInput(input);
+function getCalibrationValues(inputString) {
   let total = 0;
-  for (let value of input) {
+  for (let value of inputString) {
     let numbers = getNumbersFromString(value);
     let tempString = numbers.charAt(0) + numbers.charAt(numbers.length - 1);
     total += parseInt(tempString);
@@ -44,16 +63,5 @@ function question1() {
   console.log(total);
 }
 
-function question2() {
-  let input = readFile();
-  cleanInput(input);
-  
-
-}
-
-//take the first and last numbers and append them
-
-
-
-// question1();
+question1();
 question2();
