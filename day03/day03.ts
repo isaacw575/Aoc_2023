@@ -6,7 +6,7 @@ const anySymbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 const noDotRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/;
 const numberRegex = /[0-9]/;
 
-function question2() {
+function question1() {
     let partNumberArray = getPartNumberList();
     sumPartNumbers(partNumberArray);
 }
@@ -101,4 +101,4 @@ function isPartNumberValid(part) {
     return false;
 }
 
-question2();
+question1();
