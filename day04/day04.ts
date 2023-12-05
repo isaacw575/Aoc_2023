@@ -5,7 +5,7 @@ const card = inputString.split("\n");
 const numberRegex = /[0-9]/;
 
 function question1() {
-    const arrayOfCards = getArrayOfCards();
+    const arrayOfCards = getArrayOfCards(card);
     AssignScorecardValues(arrayOfCards);
     console.log(arrayOfCards);
     let total = arrayOfCards.reduce((acc, card) => acc + card.power, 0);
@@ -13,7 +13,7 @@ function question1() {
 
 }
 
-function getArrayOfCards() {
+function getArrayOfCards(card) {
     let cardRowsArray = [];
     for (let row of card) {
         let cardNumber: number = 0;
@@ -65,6 +65,13 @@ function AssignScorecardValues(cardRowsArray) {
     }
 }
 
+type Card = {
+    cardNumber: number;
+    winningNumbers: number[];
+    myNumbers: number[];
+    power: number;
+}
+
 function getCardRow(cardNumber: number, winningNumbers: number[], myNumbers: number[]) {
     return {
         cardNumber,
@@ -74,4 +81,36 @@ function getCardRow(cardNumber: number, winningNumbers: number[], myNumbers: num
     };
 }
 
-question1();
+//  question1();
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PART 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const arrayOfCards = getArrayOfCards(card);
+
+function question2() {
+    let total = tallyScratchCards(arrayOfCards);
+    console.log(total)
+}
+
+function tallyScratchCards(scratchCards: Card[]) {
+    return scratchCards.reduce((acc: number, card: Card) => {
+        acc++;
+        if (getWinners(card) === 0) {
+            return acc;
+        }
+
+        let numberOfMatches = getWinners(card);
+        acc += tallyScratchCards(arrayOfCards.slice(card.cardNumber, card.cardNumber + numberOfMatches));
+        return acc;
+    }, 0);
+}
+
+function getWinners(card: Card) {
+    return card.winningNumbers.reduce((acc, winningNumber) => {
+        if (card.myNumbers.includes(winningNumber)) {
+            acc++;
+        }
+        return acc;
+    }, 0);
+}
+
+question2();
