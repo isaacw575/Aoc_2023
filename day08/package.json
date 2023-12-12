@@ -1,0 +1,11 @@
+{
+  "name": "day08",
+  "module": "day08.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "^1.0.16"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
